@@ -1,0 +1,13 @@
+
+DROP TABLE todos;
+
+CREATE TABLE todos (
+  id SERIAL PRIMARY KEY,
+  title VARCHAR(255) NOT NULL,
+  completed BOOLEAN DEFAULT FALSE,
+  priority VARCHAR(20) DEFAULT 'Medium',
+  created_at VARCHAR(100) NOT NULL
+);
+
+ALTER TABLE todos
+ADD COLUMN due_date DATE;
