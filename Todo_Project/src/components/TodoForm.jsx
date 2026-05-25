@@ -1,47 +1,43 @@
 import React, { useState } from "react";
 
 function TodoForm({ addTodo }) {
-  const [task, setTask] = useState("");
-  const [priority, setPriority] = useState("medium");
+  const [title, setTitle] = useState("");
+  const [priority, setPriority] = useState("Medium");
   const [dueDate, setDueDate] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (task.trim() === "") {
+    console.log("Add button clicked");
+
+    if (!title.trim()) {
       alert("Please enter a task");
       return;
     }
 
-    addTodo(task, priority, dueDate);
+    addTodo(title, priority, dueDate);
 
-    setTask("");
-    setPriority("medium");
+    setTitle("");
+    setPriority("Medium");
     setDueDate("");
   };
 
   return (
     <form className="todo-form" onSubmit={handleSubmit}>
       <input
-        className="task-input"
         type="text"
         placeholder="Enter your task..."
-        value={task}
-        onChange={(e) => setTask(e.target.value)}
+        value={title}
+        onChange={(e) => setTitle(e.target.value)}
       />
 
-      <select
-        className="priority-select"
-        value={priority}
-        onChange={(e) => setPriority(e.target.value)}
-      >
-        <option value="high">High</option>
-        <option value="medium">Medium</option>
-        <option value="low">Low</option>
+      <select value={priority} onChange={(e) => setPriority(e.target.value)}>
+        <option value="High">High</option>
+        <option value="Medium">Medium</option>
+        <option value="Low">Low</option>
       </select>
 
       <input
-        className="date-input"
         type="date"
         value={dueDate}
         onChange={(e) => setDueDate(e.target.value)}
