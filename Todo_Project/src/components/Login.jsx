@@ -30,10 +30,10 @@ function Login() {
     if (Object.keys(validationErrors).length > 0) return;
 
     try {
-      const response = await axios.post("http://localhost:5000/login", {
+      const response = await axios.post("http://localhost:5000/api/auth/login",{
         email: email.trim(),
         password: password.trim(),
-      });
+    });
 
       localStorage.setItem("token", response.data.token);
       navigate("/todos", { replace: true });

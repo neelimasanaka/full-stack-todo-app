@@ -47,7 +47,12 @@ function Register() {
     if (Object.keys(validationErrors).length > 0) return;
 
     try {
-      await axios.post("http://localhost:5000/register", {
+      // await axios.post("http://localhost:5000/register", {
+      //   name: name.trim(),
+      //   email: email.trim(),
+      //   password: password.trim(),
+      // });
+      await axios.post("http://localhost:5000/api/auth/register", {
         name: name.trim(),
         email: email.trim(),
         password: password.trim(),
