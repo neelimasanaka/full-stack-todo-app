@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 import TodoForm from "./TodoForm";
 import TodoList from "./TodoList";
 import "../App.css";
@@ -37,7 +40,7 @@ function TodoApp() {
       const response = await axios.get(API_URL, getConfig());
       setTodos(response.data);
     } catch (error) {
-      console.log(error.response?.data || error.message);
+      toast.error("Failed to fetch todos");
     }
   };
 
@@ -56,40 +59,29 @@ function TodoApp() {
       );
 
       setTodos([response.data, ...todos]);
+      toast.success("Todo added successfully");
     } catch (error) {
-      console.log(error.response?.data || error.message);
-      alert(error.response?.data?.message || "Failed to add todo");
+      toast.error(error.response?.data?.message || "Failed to add todo");
     }
   };
 
   const deleteTodo = async (id) => {
-    const confirmDelete = window.confirm(
-      "Are you sure you want to delete this todo?"
-    );
-
-    if (!confirmDelete) return;
-
     try {
       await axios.delete(`${API_URL}/${id}`, getConfig());
-
       setTodos(todos.filter((todo) => todo.id !== id));
+      toast.success("Todo deleted successfully");
     } catch (error) {
-      console.log(error.response?.data || error.message);
+      toast.error("Failed to delete todo");
     }
   };
 
   const deleteAllTodos = async () => {
-    const confirmDelete = window.confirm(
-      "Are you sure you want to delete all todos?"
-    );
-
-    if (!confirmDelete) return;
-
     try {
       await axios.delete(API_URL, getConfig());
       setTodos([]);
+      toast.success("All todos deleted successfully");
     } catch (error) {
-      console.log(error.response?.data || error.message);
+      toast.error("Failed to delete todos");
     }
   };
 
@@ -110,8 +102,10 @@ function TodoApp() {
       setTodos(
         todos.map((item) => (item.id === todo.id ? response.data : item))
       );
+
+      toast.success("Todo updated successfully");
     } catch (error) {
-      console.log(error.response?.data || error.message);
+      toast.error("Failed to update todo");
     }
   };
 
@@ -139,14 +133,20 @@ function TodoApp() {
       setTodos(
         todos.map((todo) => (todo.id === id ? response.data : todo))
       );
+
+      toast.success("Todo edited successfully");
     } catch (error) {
-      console.log(error.response?.data || error.message);
+      toast.error("Failed to edit todo");
     }
   };
 
   const logout = () => {
     localStorage.removeItem("token");
-    navigate("/login");
+    toast.success("Logged out successfully");
+
+    setTimeout(() => {
+      navigate("/login");
+    }, 1000);
   };
 
   const totalTasks = todos.length;
@@ -193,8 +193,12 @@ function TodoApp() {
           Logout
         </button>
       </div>
+
+      <ToastContainer position="top-right" autoClose={2000} />
     </div>
   );
 }
 
 export default TodoApp;
+
+
